@@ -1,0 +1,21 @@
+
+.icon-th-list:before { content: '\e800'; } /* '' */
+.icon-down-dir:before { content: '\e801'; } /* '' */
+.icon-ok:before { content: '\e802'; } /* '' */
+.icon-right-open:before { content: '\e803'; } /* '' */
+.icon-cancel:before { content: '\e804'; } /* '' */
+.icon-minus-outline:before { content: '\e805'; } /* '' */
+.icon-minus:before { content: '\e806'; } /* '' */
+.icon-money-1:before { content: '\e807'; } /* '' */
+.icon-dollar-1:before { content: '\e808'; } /* '' */
+.icon-money-2:before { content: '\e809'; } /* '' */
+.icon-wallet:before { content: '\e80a'; } /* '' */
+.icon-money:before { content: '\f0d6'; } /* '' */
+.icon-euro:before { content: '\f153'; } /* '' */
+.icon-pound:before { content: '\f154'; } /* '' */
+.icon-dollar:before { content: '\f155'; } /* '' */
+.icon-rupee:before { content: '\f156'; } /* '' */
+.icon-yen:before { content: '\f157'; } /* '' */
+.icon-rouble:before { content: '\f158'; } /* '' */
+.icon-won:before { content: '\f159'; } /* '' */
+.icon-bitcoin:before { content: '\f15a'; } /* '' */

@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Konwerter walut by Dar3cz3Q</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chroma=1" />
+
+    <meta name="description" content="Strona internetowa która zawiera przelicznik różnych wartości." />
+    <meta name="keywords" content="wartość, przelicznik, przeliczanie, liczenie, kalkulator, temperatura, waluta, przelicznik walut, kalkulator podstawowy," />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="styles/styles.css" />
+    <link rel="stylesheet" type="text/css" href="styles/preloader.css" />
+    <link rel="stylesheet" type="text/css" href="css/fontello.css" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital@1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+
+    <link rel="Shortcut icon" href="favicon.png" />
+</head>
+
+<body data-theme="dark" data-primary-language="PL" onselectstart="return false;">
+    <div class="loader-container flexstyle">
+        <div class="loading-element-animation flexstyle">
+            <script src="js/randomPreloader.js"></script>
+        </div>
+    </div>
+    <div class="main-container flexstyle">
+        <div class="nav-container flexstyle">
+            <div class="nav-left-container flexstyle">
+                <span class="header-text">Konwerter walut</span>
+            </div>
+            <div class="nav-right-container flexstyle">
+                <div class="currency-container flexstyle">
+                    <div class="currency-selector flexstyle">
+                        <div class="currency-logo flexstyle">
+                            <i class="icon-euro icon-mystyles"></i>
+                        </div>
+                        <input class="currency-value flexstyle" data-navigation-value-icons="EUR" disabled>
+                    </div>
+                    <div class="currency-selector flexstyle">
+                        <div class="currency-logo flexstyle">
+                            <i class="icon-dollar icon-mystyles"></i>
+                        </div>
+                        <input class="currency-value flexstyle" data-navigation-value-icons="USD" disabled>
+                    </div>
+                    <div class="currency-selector flexstyle">
+                        <div class="currency-logo flexstyle">
+                            <i class="icon-pound icon-mystyles"></i>
+                        </div>
+                        <input class="currency-value flexstyle" data-navigation-value-icons="GBP" disabled>
+                    </div>
+                    <div class="currency-selector flexstyle">
+                        <div class="currency-logo flexstyle">
+                            <i class="icon-yen icon-mystyles"></i>
+                        </div>
+                        <input class="currency-value flexstyle" data-navigation-value-icons="JPY" disabled>
+                    </div>
+                    <div class="currency-selector flexstyle">
+                        <div class="currency-logo flexstyle">
+                            <i class="icon-won icon-mystyles"></i>
+                        </div>
+                        <input class="currency-value flexstyle" data-navigation-value-icons="KRW" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-container flexstyle">
+            <div class="calculator-container flexstyle">
+                <div class="show-actual-currency-container flexstyle">
+                    <span class="actual-currency-header">Dane pobrane z API Narodowego Banku Polskiego</span>
+                    <span class="actual-currency-date"></span>
+                    <span class="actual-currency-number"></span>
+                </div>
+                <div class="change-container flexstyle">
+                    <div class="calculate-container flexstyle">
+                        <div class="currency-set-container flexstyle">
+                            <div class="currency-single-container flexstyle">
+                                <div class="currency-button flexstyle" data-set-currency-type="first"></div>
+                            </div>
+                            <div class="currency-arrow-container flexstyle">
+                                <i class="icon-right-open"></i>
+                            </div>
+                            <div class="currency-single-container flexstyle">
+                                <div class="currency-button flexstyle" data-set-currency-type="second"></div>
+                            </div>
+                        </div>
+                        <div class="value-input-container flexstyle">
+                            <div class="input-container flexstyle" data-input-state="blur">
+                                <div class="input-tip flexstyle">
+                                    <span>Kwota</span>
+                                </div>
+                                <input class="calculate-input" type="number">
+                                <div class="input-line input-first-line"></div>
+                                <div class="input-line input-second-line"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="calculate-button-container flexstyle" data-calculate-button="inactive">
+                        <div class="calculate-button flexstyle">
+                            <i class="icon-ok"></i>
+                        </div>
+                        <div class="show-currency-list-button flexstyle">
+                            <i class="icon-th-list"></i>
+                        </div>
+                    </div>
+                    <div class="additional-container flexstyle">
+                        <div class="additional-header flexstyle">
+                            <span>Wybierz walutę:</span>
+                        </div>
+                        <div class="additional-content flexstyle"></div>
+                        <div class="close-additional-button flexstyle" data-additional-close-button>
+                            <i class="icon-cancel"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-container flexstyle">
+            <span class="footer-text">Stworzone przez Dar3cz3Q</span>
+        </div>
+    </div>
+</body>
+
+</html>
