@@ -35,13 +35,15 @@ function dataSuccess(data) {
             currency_button[i].setAttribute('data-set-currency-type-state', 'inactive');
             var currency_type = $(this).data('set-currency-type');
             $(".additional-content").data("actual-set-currency-open", currency_type);
-            enterAdditionalData(data, mouseposition);
+            var elementIdentiVariable = $(this);
+            enterAdditionalData(data, mouseposition, elementIdentiVariable);
         });
     }
     preloaderHidding();
 }
 
-function enterAdditionalData(data, mouseposition) {
+function enterAdditionalData(data, mouseposition, el) {
+    var elementIdentiVariable = $(this);
     $(".additional-content").append(`
 		<div class="currency-button flexstyle" style="margin: 3px;" data-set-other-currency-id="-1">
 			<span>PLN</span>
@@ -64,12 +66,13 @@ function enterAdditionalData(data, mouseposition) {
             'set-other-currency-value': value
         });
     });
+    $(".additional-content").css('align-content', 'flex-start');
     var currency_to_set_button = document.querySelectorAll('[data-set-other-currency-id]');
     for (let i = 0; i < currency_to_set_button.length; i++) {
         currency_to_set_button[i].addEventListener("click", changeCurrentCurrency);
         $('[data-set-other-currency-id=' + i + ']').removeAttr('data-set-other-currency-id');
     }
-    additional_show(mouseposition);
+    additional_show(mouseposition, el);
 }
 
 function changeCurrentCurrency() {
@@ -86,7 +89,13 @@ function changeCurrentCurrency() {
     additional_hide();
 }
 
+
+//var pagey;
+
 function setupSomeEventListeners() {
+    /*$(window).mousemove(function(e){
+        pagey = e.pageY;
+    });*/
     var additional_container_close = document.querySelector('[data-additional-close-button]');
     additional_container_close.addEventListener("click", additional_hide);
     var input_element = document.getElementsByClassName('calculate-input')[0],
@@ -94,6 +103,9 @@ function setupSomeEventListeners() {
         input_calculate_button = document.getElementsByClassName('calculate-button')[0],
         input_calculate_button_active = document.querySelector('[data-calculate-button]');
     input_element.addEventListener('focus', function () {
+        /*var posy = pagey - $('.input-second-line').offset().left;
+        $(".input-second-line").css("transform-origin", posy);
+        $(".input-second-line").addClass("input-line-animation");*/
         input_data_element.setAttribute('data-input-state', 'focus');
     });
     input_element.addEventListener('blur', function () {
@@ -113,11 +125,12 @@ function setupSomeEventListeners() {
         }
     });
     input_calculate_button.addEventListener("click", function (secondmouseposition) {
-        calculateStartFunction(secondmouseposition);
+        var elementIdenti = $(this);
+        calculateStartFunction(secondmouseposition, elementIdenti);
     });
 }
 
-function calculateStartFunction(mouseposition) {
+function calculateStartFunction(mouseposition, elementIdenti) {
     var button_state = document.querySelector('[data-calculate-button]').getAttribute('data-calculate-button');
     if (button_state === 'active') {
         document.getElementsByClassName('calculate-button')[0].setAttribute('data-set-currency-type-state', 'inactive');
@@ -129,43 +142,60 @@ function calculateStartFunction(mouseposition) {
         var calculation = amount_value * first_currency_value;
         var result = calculation / second_currency_value;
         if (isNaN(result)) {
-            calculateEndFunction(false, mouseposition);
+            calculateEndFunction(false, mouseposition, elementIdenti);
         } else {
-            calculateEndFunction(true, mouseposition, first_currency_code, second_currency_code, amount_value, result.toFixed(2));
+            calculateEndFunction(true, mouseposition, elementIdenti, first_currency_code, second_currency_code, amount_value, result.toFixed(2));
         }
     }
 }
 
-function calculateEndFunction(state, mousepos, first_code, second_code, amount_value, result) {
+function calculateEndFunction(state, mousepos, identiElement, first_code, second_code, amount_value, result) {
     if (state === true) {
         $(".additional-content").addClass('result-content-styles');
         $(".additional-header").css('display', 'none');
         $(".additional-content").append(`
 			<span class="result-styles-text">${amount_value} ${first_code} = ${result} ${second_code}</span>
 		`);
-        additional_show(mousepos);
+        additional_show(mousepos, identiElement);
     } else {
         console.log('Coś poszło nie tak i trzeba napisać skrypcik który pokaże że coś poszło nie tak');
     }
 }
 
-function additional_show(evt) {
+function additional_show(evt, el) {
+    var animationId = el.data("animation");
+    var posxa = evt.pageX - $('[data-animation="' + animationId + '"]').offset().left;
+    var posya = evt.pageY - $('[data-animation="' + animationId + '"]').offset().top;
+    $('[data-animation="' + animationId + '"]').append(`
+        <span class="click-animation" data-animation-button="${animationId}" style="top: ${posya}px; left: ${posxa}px;"></span>
+    `);
+    document.querySelector('[data-animation-button="' + animationId + '"]').addEventListener("animationend", function () {
+        $(this).remove();
+    });
     var posx = evt.pageX - $('.change-container').offset().left;
     var posy = evt.pageY - $('.change-container').offset().top;
     var origin = posx + 'px' + ' ' + posy + 'px';
     $(".additional-container").css('transform-origin', origin);
     setTimeout(function () {
         $(".additional-container").addClass("additional-container-show");
+        setTimeout(function () {
+            $(".additional-content").css('overflow', 'auto');
+        }, 400)
     }, 400);
 }
 
 function additional_hide() {
     $(".additional-container").removeClass("additional-container-show");
+    $(".additional-content").css('overflow', 'hidden');
     setTimeout(function () {
         $(".additional-content").removeClass('result-content-styles');
         $(".additional-header").css('display', 'flex');
         $(".additional-content").data("actual-set-currency-open", '');
         $(".additional-content").html(``);
+        $(".additional-content").css({
+            'align-content': '',
+            'overflow': 'hidden',
+        });
     }, 400)
     document.querySelector('[data-set-currency-type-state="inactive"]').setAttribute('data-set-currency-type-state', 'active');
 }
@@ -187,8 +217,31 @@ function preloaderHidding() {
 }
 
 function setupFiveCurrencyIcons(data) {
-    $(".actual-currency-date").html(`Data: ${data[0].effectiveDate}`);
-    $(".actual-currency-number").html(`Oznaczenie: ${data[0].no}`);
+    var dateToShow = data[0].effectiveDate,
+        uniqueToShow = data[0].no;
+    const dataToShowTable = [
+        'Dane pobrane z API Narodowego Banku Polskiego',
+        'API BNP',
+        'Data: ' + dateToShow + '',
+        dateToShow,
+        'Oznaczenie: ' + uniqueToShow + '',
+        uniqueToShow
+    ]
+    const dataElementSize = [
+        'large',
+        'small',
+    ]
+    var sizeCounter = 0;
+    for (let j = 0; j < 6; j++) {
+        $(".show-actual-currency-container").append(`
+            <span data-element-information-size="${dataElementSize[sizeCounter]}">${dataToShowTable[j]}</span>
+        `);
+        if (sizeCounter > 0) {
+            sizeCounter--
+        } else {
+            sizeCounter++
+        }
+    }
     const availableCodes = [
 		'EUR',
 		'USD',
